@@ -13,6 +13,7 @@ import org.codejudge.socialfeeds.error.exception.NotFoundException;
 import org.codejudge.socialfeeds.mapper.FeedsMapper;
 import org.codejudge.socialfeeds.model.PostDto;
 import org.codejudge.socialfeeds.model.UserDto;
+import org.codejudge.socialfeeds.model.UserDtos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -37,9 +38,6 @@ public class FeedsService {
 
     @Autowired
     private UserFollowingRepository followingRepository;
-
-    @Autowired
-    private FileService fileService;
 
     public PostDto createPost(Post post, String username) throws CustomException {
         Post updatedPost = null;
@@ -250,5 +248,19 @@ public class FeedsService {
         }
         userDto = FeedsMapper.getUserDtoFromUser(user);
         return userDto;
+    }
+
+    public UserDtos getAllUsers() {
+
+        List<UserDto> userDtos = null;
+        List<User> users = null;
+        users = feedsRepository.findAll();
+        if (users == null) {
+            users = new ArrayList<>();
+        }
+        userDtos = FeedsMapper.getAllUserDtosFromUsers(users);
+        UserDtos allUsers = new UserDtos();
+        allUsers.setUsers(userDtos);
+        return allUsers;
     }
 }

@@ -7,11 +7,14 @@ import org.codejudge.socialfeeds.error.exception.NotFoundException;
 import org.codejudge.socialfeeds.model.PostDto;
 import org.codejudge.socialfeeds.model.SuccessResponse;
 import org.codejudge.socialfeeds.model.UserDto;
+import org.codejudge.socialfeeds.model.UserDtos;
 import org.codejudge.socialfeeds.service.FeedsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class FeedsController {
@@ -29,6 +32,12 @@ public class FeedsController {
     public ResponseEntity addFriend(@PathVariable("userA") String userA, @PathVariable("userB") String userB) throws CustomException {
         feedsService.addFriend(userA, userB);
         return new ResponseEntity<>(new SuccessResponse(), HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/get-users/", method = RequestMethod.GET)
+    public ResponseEntity getAllUsers() throws CustomException {
+        UserDtos users = feedsService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @PostMapping(value = "/create-post/{user}")

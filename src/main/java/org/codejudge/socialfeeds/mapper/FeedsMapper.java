@@ -53,4 +53,12 @@ public class FeedsMapper {
         }
         return postDtos;
     }
+
+    public static List<UserDto> getAllUserDtosFromUsers(List<User> users) {
+        List<UserDto> userDtos = new ArrayList<>();
+        for (User user : users) {
+            userDtos.add(getUserDtoFromUser(user));
+        }
+        return userDtos;
+    }
 }
